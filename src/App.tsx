@@ -2,6 +2,7 @@ import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import "./App.css";
 import Map from "./components/Map";
 import Marker from "./components/Marker";
+import DrawingManager from "./components/DrawingManager";
 
 function App() {
   const API_KEY = "AIzaSyBoJnGFrN2OMZfK2ldnfd8aWxDGmz_VnBw";
@@ -42,6 +43,7 @@ function App() {
           {positions.map((position, index) => (
             <Marker key={index} position={position} />
           ))}
+          <DrawingManager />
         </Map>
       </Wrapper>
       <div className="location-info"></div>
