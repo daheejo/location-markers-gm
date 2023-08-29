@@ -17,12 +17,14 @@ const Map: React.FC<MapProps> = () => {
     if (ref.current) {
       new window.google.maps.Map(ref.current, {
         center: { lat: 37.569227, lng: 126.9777256 },
-        zoom: 16,
+        zoom: 15,
+        disableDefaultUI: true,
+        draggable: false,
       });
     }
     // setMap(map);
   }, [ref]);
-  return <div ref={ref} style={{ height: "100vh", width:'70%' }} />;
+  return <div ref={ref} style={{ height: "100vh", width: "70%" }} />;
 };
 
 export default Map;
