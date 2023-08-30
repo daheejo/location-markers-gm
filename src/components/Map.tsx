@@ -3,16 +3,18 @@ import { useMapContext } from "../mapContext";
 
 interface MapProps extends google.maps.MapOptions {
   children?: React.ReactNode;
+  center: google.maps.LatLngLiteral;
+  zoom?: number;
 }
-const Map: React.FC<MapProps> = ({ children }) => {
+const Map: React.FC<MapProps> = ({ children, center, zoom = 16 }) => {
   const ref = React.useRef<HTMLDivElement | null>(null);
   const { map, setMap } = useMapContext();
 
   React.useEffect(() => {
     if (ref.current && !map) {
       const mapInitiated = new window.google.maps.Map(ref.current, {
-        center: { lat: 37.569227, lng: 126.9777256 },
-        zoom: 16,
+        center: center,
+        zoom: zoom,
         disableDefaultUI: true,
         draggable: false,
       });
@@ -21,7 +23,7 @@ const Map: React.FC<MapProps> = ({ children }) => {
   }, [ref, map]);
   return (
     <>
-      <div ref={ref} style={{ height: "100vh", width: "70%" }} />
+      <div ref={ref} className="map" />
       {React.Children.map(children, (child) => {
         if (React.isValidElement(child)) {
           // set the map prop on the child component
