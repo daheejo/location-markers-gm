@@ -5,9 +5,7 @@ import "./index.css";
 import { MapProvider } from "./mapContext";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <MapProvider>
-      <App />
-    </MapProvider>
-  </React.StrictMode>
+  <MapProvider>
+    <App />
+  </MapProvider>
 );
