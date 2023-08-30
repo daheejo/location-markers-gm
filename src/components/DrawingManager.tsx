@@ -6,7 +6,7 @@ const DrawingManager: React.FC<google.maps.drawing.DrawingManagerOptions> = (
 ) => {
   const [drawingManager, setDrawingManager] =
     React.useState<google.maps.drawing.DrawingManager>();
-  const { positions } = usePositionContext();
+  const { positions, setSelectedPositions } = usePositionContext();
 
   React.useEffect(() => {
     if (!drawingManager) {
@@ -34,7 +34,7 @@ const DrawingManager: React.FC<google.maps.drawing.DrawingManagerOptions> = (
         drawingManager.setMap(null);
       }
     };
-  }, [drawingManager]);
+  }, []);
 
   React.useEffect(() => {
     if (drawingManager) {
@@ -42,24 +42,31 @@ const DrawingManager: React.FC<google.maps.drawing.DrawingManagerOptions> = (
     }
   }, [drawingManager, options]);
 
-  const markers: google.maps.Marker[] = [];
   drawingManager?.addListener(
     "rectanglecomplete",
     (rectangle: google.maps.Rectangle) => {
-      // console.log(positions)
-      // console.log(positions?.find((position) => rectangle.getBounds()?.contains(position)));
-      console.log(rectangle.getBounds()?.contains(positions?.[0]));
-      // let coordsArr = [];
+      const ne = rectangle.getBounds().getNorthEast();
+      const sw = rectangle.getBounds().getSouthWest();
+      const latNE = ne.lat();
+      const lngNE = ne.lng();
+      const latSW = sw.lat();
+      const lngSW = sw.lng();
 
-      // let coords = rectangle.getPath().getArray();
-      // console.log(coords)
-      // const ne = rectangle.getBounds().getNorthEast();
-      // const sw = rectangle.getBounds().getSouthWest();
-      // const lat = (ne.lat() + sw.lat()) / 2;
-      // const lng = (ne.lng() + sw.lng()) / 2;
-      // const position = { lat, lng };
-      // markers.push(position);
-      // console.log(markers)
+      const positionsWithinRectangle = positions.filter((position) => {
+        const markerLat = position.lat;
+        const markerLng = position.lng;
+
+        return (
+          markerLat >= latSW &&
+          markerLat <= latNE &&
+          markerLng >= lngSW &&
+          markerLng <= lngNE
+        );
+      });
+
+      if (positionsWithinRectangle.length > 0) {
+        setSelectedPositions(positionsWithinRectangle);
+      }
       // Clear the rectangle
       rectangle.setMap(null);
     }
