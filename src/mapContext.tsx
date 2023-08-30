@@ -8,6 +8,10 @@ interface MapContextProps {
 interface PositionContextProps {
   positions: google.maps.LatLngLiteral[];
   setPositions: (positions: google.maps.LatLngLiteral[]) => void;
+  selectedPositions: google.maps.LatLngLiteral[] | null;
+  setSelectedPositions: (
+    selectedLocations: google.maps.LatLngLiteral[] | null
+  ) => void;
 }
 
 export const MapContext = React.createContext<MapContextProps | null>(null);
@@ -15,15 +19,25 @@ export const PositionContext = React.createContext<PositionContextProps | null>(
   null
 );
 
-export const PositionProvider: React.FC<{ children: React.ReactNode }> = ({
+const PositionProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [positions, setPositions] = React.useState<google.maps.LatLngLiteral[]>(
     []
   );
+  const [selectedPositions, setSelectedPositions] = React.useState<
+    google.maps.LatLngLiteral[] | null
+  >(null);
 
   return (
-    <PositionContext.Provider value={{ positions, setPositions }}>
+    <PositionContext.Provider
+      value={{
+        positions,
+        setPositions,
+        selectedPositions,
+        setSelectedPositions,
+      }}
+    >
       {children}
     </PositionContext.Provider>
   );
@@ -36,9 +50,7 @@ export const MapProvider: React.FC<{ children: React.ReactNode }> = ({
 
   return (
     <MapContext.Provider value={{ map, setMap }}>
-      <PositionProvider>
-        {children}
-      </PositionProvider>
+      <PositionProvider>{children}</PositionProvider>
     </MapContext.Provider>
   );
 };
