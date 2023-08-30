@@ -18,9 +18,6 @@ function App() {
 
   React.useEffect(() => {
     setPositions(positions);
-    window.alert(
-      "지도의 상단 메뉴에서 사각형을 선택하시고 원하는 위치의 마커 위에 그리시면 우측에 위도,경보 정보가 뜹니다 :)"
-    );
   }, []);
 
   return (
