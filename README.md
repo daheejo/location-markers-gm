@@ -10,7 +10,7 @@
    pnpm i
 
    //2. run the app
-   npm dev
+   npm run dev
    //or
    pnpm dev
    ```
