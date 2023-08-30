@@ -1,28 +1,24 @@
 import React from "react";
+import { useMapContext } from "../mapContext";
 
 interface MapProps extends google.maps.MapOptions {
   children?: React.ReactNode;
 }
 const Map: React.FC<MapProps> = ({ children }) => {
   const ref = React.useRef<HTMLDivElement | null>(null);
-    const [map, setMap] = React.useState<google.maps.Map>();
+  const { map, setMap } = useMapContext();
 
   React.useEffect(() => {
-    if (ref.current) {
-      new window.google.maps.Map(ref.current, {
+    if (ref.current && !map) {
+      const mapInitiated = new window.google.maps.Map(ref.current, {
         center: { lat: 37.569227, lng: 126.9777256 },
         zoom: 16,
         disableDefaultUI: true,
         draggable: false,
       });
-      setMap(new window.google.maps.Map(ref.current, {
-        center: { lat: 37.569227, lng: 126.9777256 },
-        zoom: 16,
-        disableDefaultUI: true,
-        draggable: false,
-      }))
+      setMap(mapInitiated);
     }
-  }, [ref]);
+  }, [ref, map]);
   return (
     <>
       <div ref={ref} style={{ height: "100vh", width: "70%" }} />
