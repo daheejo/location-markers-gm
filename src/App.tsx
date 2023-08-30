@@ -9,7 +9,6 @@ import positions from "./constants/positions";
 import MarkerInfoBox from "./components/MarkerInfoBox";
 
 function App() {
-  const API_KEY = "AIzaSyBoJnGFrN2OMZfK2ldnfd8aWxDGmz_VnBw";
   const render = (status: Status) => {
     return <h1>{status}</h1>;
   };
@@ -23,7 +22,7 @@ function App() {
   return (
     <div className="app">
       <Wrapper
-        apiKey={API_KEY}
+        apiKey={import.meta.env.VITE_GM_API_KEY}
         render={render}
         libraries={["drawing"]}
         language="ko"
